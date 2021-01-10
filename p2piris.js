@@ -74,7 +74,7 @@ let swarm = Swarm(config);
     // Random Unused Port that is used to listen for TCP peer connections
     let port = await getPort();
 
-    swarm.listen(port);
+    swarm.listen(process.env.PORT || port);
 
     console.log("INFO: Peer listening on port: " + port);
 
