@@ -2,6 +2,9 @@
   "name": "p2p-iris",
   "version": "0.0.1-beta",
   "description": "Creates a simple p2p peer.",
+  "scripts": {
+    "start": "node p2piris.js"
+  },
   "main": "p2piris.js",
   "author": "Connor Davis",
   "license": "GPL-3.0",
