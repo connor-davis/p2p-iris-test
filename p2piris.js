@@ -27,12 +27,12 @@ console.log("ID: " + id.toString("hex"));
 let rl;
 
 let log = (type, data) => {
-    if (rl) {
+    if (rl && !process.env.NO_READLINE) {
         rl.clearLine();
         rl.close();
         rl = undefined;
     }
-    
+
     console.log(type + ": " + data);
 
     askUser();
@@ -43,21 +43,23 @@ let log = (type, data) => {
  * to other peers as if it were a chat.
  */
 let askUser = async () => {
-    rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-    });
+    if (!process.env.NO_READLINE) {
+        rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout,
+        });
 
-    rl.question("Message: ", (message) => {
-        for (let id in peers) {
-            peers[id].connection.write(message);
-        }
+        rl.question("Message: ", (message) => {
+            for (let id in peers) {
+                peers[id].connection.write(message);
+            }
 
-        rl.close();
-        rl = undefined;
+            rl.close();
+            rl = undefined;
 
-        askUser();
-    });
+            askUser();
+        });
+    }
 }
 
 /**
@@ -87,7 +89,7 @@ let swarm = Swarm(config);
     swarm.on("connection", (connection, info) => {
         let seq = connSeq;
         let peerId = info.id.toString("hex");
-        
+
         // Keep alive TCP connection with peer
         if (info.initiator) {
             try {
@@ -105,7 +107,7 @@ let swarm = Swarm(config);
         connection.on("close", () => {
             // Handle peer disconnection
             log("INFO", "Connection " + seq + " closed, peer id: " + peerId);
-            
+
             /**
              * If the closing connection is the last connection
              * with the peer, remove the peer.
