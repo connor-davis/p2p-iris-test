@@ -1,0 +1,15 @@
+{
+  "name": "p2p-iris",
+  "version": "0.0.1-beta",
+  "description": "Creates a simple p2p peer.",
+  "main": "p2piris.js",
+  "author": "Connor Davis",
+  "license": "GPL-3.0",
+  "private": false,
+  "dependencies": {
+    "dat-swarm-defaults": "^1.0.2",
+    "discovery-swarm": "^6.1.0",
+    "get-port": "^5.1.1",
+    "portfinder": "^1.0.28"
+  }
+}
